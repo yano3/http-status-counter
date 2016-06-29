@@ -22,3 +22,9 @@ http {
   }
 }
 ```
+
+## dependent mrbgem
+
+```ruby
+  conf.gem :github => 'matsumoto-r/mruby-localmemcache'
+```

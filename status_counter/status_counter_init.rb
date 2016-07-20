@@ -18,7 +18,7 @@ class StatusCounter
 
   def output
     out = current_stats.sort.map{|key,value| "#{key}:#{value}"}.join("\t")
-    Server.echo "#{out}"
+    Server.echo out
   end
 
   def current_stats

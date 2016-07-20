@@ -7,25 +7,25 @@ class StatusCounter
 
   def update
     v = Server::Var.new
-    status = v.status
-
+    status = v.status.to_s
     stats = current_stats
 
-    stats[:"#{status}"] = (stats[:"#{status}"].to_i + 1).to_s
+    stats[status.to_sym] ||= 0
+    stats[status.to_sym] = stats[status.to_sym] + 1
+
     @cache["stats"] = stats.to_s
   end
 
   def output
     out = current_stats.sort.map{|key,value| "#{key}:#{value}"}.join("\t")
-    Server.echo "#{out}"
+    Server.echo out
   end
 
   def current_stats
-    stats = @cache["stats"]
-    if stats == nil then
-      {}
+    if @cache["stats"]
+      eval(@cache["stats"])
     else
-      eval(stats)
+      {}
     end
   end
 end

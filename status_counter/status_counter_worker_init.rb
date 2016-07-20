@@ -1,4 +1,4 @@
-config = {:namespace =>"status_counter"}
+config = {namespace: "status_counter"}
 
 c = Cache.new config
 c.clear

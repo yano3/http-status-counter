@@ -11,7 +11,7 @@ class StatusCounter
 
     stats = current_stats
 
-    stats[:"#{status}"] = (stats[:"#{status}"].to_i + 1).to_s
+    stats[status.to_sym] = (stats[status.to_sym].to_i + 1).to_s
     @cache["stats"] = stats.to_s
   end
 

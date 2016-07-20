@@ -22,10 +22,10 @@ class StatusCounter
 
   def current_stats
     stats = @cache["stats"]
-    if stats == nil then
-      {}
-    else
+    if stats
       eval(stats)
+    else
+      {}
     end
   end
 end

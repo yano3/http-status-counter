@@ -7,7 +7,7 @@ class StatusCounter
 
   def update
     v = Server::Var.new
-    status = v.status
+    status = v.status.to_s
 
     stats = current_stats
 

@@ -1,4 +1,5 @@
 Server = get_server_class
+Userdata.new.shared_mutex = Mutex.new :global => true
 
 class StatusCounter
   def initialize c

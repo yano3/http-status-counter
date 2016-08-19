@@ -1,6 +1,13 @@
 Server = get_server_class
 Userdata.new.shared_mutex = Mutex.new :global => true
 
+config = {
+  namespace: "status_counter",
+  size_mb: 32,
+}
+
+Userdata.new.shared_cache = Cache.new config
+
 class StatusCounter
   def initialize c
     @cache = c

@@ -9,7 +9,6 @@ Count and output sent http status code using mruby code.
 ```nginx
 http {
   mruby_init /path/to/nginx/conf.d/status_counter/status_counter_init.rb cache;
-  mruby_init_worker /path/to/nginx/conf.d/status_counter/status_counter_worker_init.rb cache;
 
   server {
     location / {

@@ -25,7 +25,9 @@ class StatusCounter
   end
 
   def output
-    out = current_stats.sort.map{|key,value| "#{key}:#{value}"}.join("\t")
+    out = JSON::stringify({
+      "status" => current_stats.sort.to_h
+    })
     Server.echo out
   end
 

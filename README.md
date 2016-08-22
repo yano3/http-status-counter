@@ -36,4 +36,5 @@ $ curl http://localhost/status_count
 ```ruby
   conf.gem :github => 'matsumoto-r/mruby-localmemcache'
   conf.gem :github => 'matsumoto-r/mruby-mutex'
+  conf.gem :github => 'mattn/mruby-json'
 ```

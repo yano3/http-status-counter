@@ -27,6 +27,9 @@ class StatusCounter
     body_bytes_sent = v.body_bytes_sent.to_i
     stats[:body_bytes_sent] += body_bytes_sent
 
+    request_time = (v.request_time.to_f * 1000).to_i
+    stats[:request_time] += request_time
+
     @cache["stats"] = stats.to_s
   end
 
@@ -43,6 +46,7 @@ class StatusCounter
       {
         status: { },
         body_bytes_sent: 0,
+        request_time: 0,
       }
     end
   end

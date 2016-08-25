@@ -15,27 +15,35 @@ class StatusCounter
 
   def update
     v = Server::Var.new
-    status = v.status.to_s
+
     stats = current_stats
 
-    stats[status.to_sym] ||= 0
-    stats[status.to_sym] = stats[status.to_sym] + 1
+    status_code = v.status.to_s
+    status_counts = stats[:status]
+    status_counts[status_code.to_sym] ||= 0
+    status_counts[status_code.to_sym] = status_counts[status_code.to_sym] + 1
+    stats[:status] = status_counts
+
+    body_bytes_sent = v.body_bytes_sent.to_i
+    stats[:body_bytes_sent] += body_bytes_sent
 
     @cache["stats"] = stats.to_s
   end
 
   def output
-    out = JSON::stringify({
-      "status" => current_stats.sort.to_h
-    })
-    Server.echo out
+    out = current_stats
+    out[:status] = out[:status].sort.to_h
+    Server.echo JSON::stringify(out)
   end
 
   def current_stats
     if @cache["stats"]
       eval(@cache["stats"])
     else
-      {}
+      {
+        status: { },
+        body_bytes_sent: 0,
+      }
     end
   end
 end

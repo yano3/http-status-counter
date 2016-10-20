@@ -18,6 +18,8 @@ class StatusCounter
 
     stats = current_stats
 
+    stats[:requests] += 1
+
     status_code = v.status.to_s
     status_counts = stats[:status]
     status_counts[status_code.to_sym] ||= 0
@@ -44,6 +46,7 @@ class StatusCounter
       eval(@cache["stats"])
     else
       {
+        requests: 0,
         status: { },
         body_bytes_sent: 0,
         request_time: 0,

@@ -44,8 +44,10 @@ class StatusCounter
       end
     end
 
-    stats[:period_requests] += 1
-    stats[:period_request_time] += request_time
+    if status_code.to_i >= 200 && status_code.to_i < 300
+      stats[:period_requests] += 1
+      stats[:period_request_time] += request_time
+    end
 
     @cache["stats"] = stats.to_s
   end

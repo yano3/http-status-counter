@@ -33,49 +33,40 @@ class StatusCounter
     request_time = (v.request_time.to_f * 1000).to_i
     stats[:request_time] += request_time
 
-    if @cache["period_statistics"]
-      period_statistics = eval(@cache["period_statistics"])
-    else
-      period_statistics = init_period_statistics
-    end
-
     # calc average response time
-    if Time.now.to_i - period_statistics[:updated] > @interval
-      avg_request_time = nil
-      if period_statistics[:requests].to_i > 0
-        avg_request_time = period_statistics[:request_time] / period_statistics[:requests]
+    if Time.now.to_i - stats[:period_updated] > @interval
+      if stats[:period_requests].to_i > 0
+        avg_request_time = stats[:period_request_time] / stats[:period_requests]
+        stats[:avg_request_time] = avg_request_time
+        stats[:period_requests] = 0
+        stats[:period_request_time] = 0
+        stats[:period_updated] = Time.now.to_i
       end
-
-      stats[:avg_request_time] = avg_request_time
-      period_statistics = init_period_statistics
     end
 
-    period_statistics[:requests] += 1
-    period_statistics[:request_time] += request_time
+    stats[:period_requests] += 1
+    stats[:period_request_time] += request_time
 
-    @cache["period_statistics"] = period_statistics.to_s
     @cache["stats"] = stats.to_s
-  end
-
-  def init_period_statistics
-    {
-      requests: 0,
-      request_time: 0,
-      updated: Time.now.to_i,
-    }
   end
 
   def output
     stats = current_stats
     stats[:status] = stats[:status].sort.to_h
 
-    if @cache["period_statistics"]
-      if Time.now.to_i - eval(@cache["period_statistics"])[:updated] > 300
-        stats[:avg_request_time] = nil
-      end
+    if Time.now.to_i - stats[:period_updated] > 300
+      stats[:avg_request_time] = nil
     end
 
-    Server.echo JSON::stringify(stats)
+    out = {
+      requests: stats[:requests],
+      status: stats[:status],
+      body_bytes_sent: stats[:body_bytes_sent],
+      request_time: stats[:request_time],
+      avg_request_time: stats[:avg_request_time]
+    }
+
+    Server.echo JSON::stringify(out)
   end
 
   def current_stats
@@ -88,6 +79,9 @@ class StatusCounter
         body_bytes_sent: 0,
         request_time: 0,
         avg_request_time: nil,
+        period_requests: 0,
+        period_request_time: 0,
+        period_updated: Time.now.to_i
       }
     end
   end

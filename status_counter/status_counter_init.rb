@@ -67,9 +67,16 @@ class StatusCounter
   end
 
   def output
-    out = current_stats
-    out[:status] = out[:status].sort.to_h
-    Server.echo JSON::stringify(out)
+    stats = current_stats
+    stats[:status] = stats[:status].sort.to_h
+
+    if @cache["period_statistics"]
+      if Time.now.to_i - eval(@cache["period_statistics"])[:updated] > 300
+        stats[:avg_request_time] = nil
+      end
+    end
+
+    Server.echo JSON::stringify(stats)
   end
 
   def current_stats

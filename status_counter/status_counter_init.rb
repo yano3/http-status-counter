@@ -47,7 +47,6 @@ class StatusCounter
       end
 
       stats[:avg_request_time] = avg_request_time
-      period_statistics[:updated] = Time.now.to_i
       period_statistics = init_period_statistics
     end
 

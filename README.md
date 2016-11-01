@@ -23,8 +23,19 @@ http {
 ```
 
 ```shell
-$ curl http://localhost/status_count
-200:3344        301:1192        302:901 404:781
+$ curl http://localhost/status_count | jq
+{
+  "requests": 6218,
+  "status": {
+    "200": 3344,
+    "301": 1192,
+    "302": 901,
+    "404": 781
+  },
+  "body_bytes_sent": 5200307169,
+  "request_time": 196100,
+  "avg_request_time": 28.014285714286
+}
 ```
 
 ## use case

@@ -33,8 +33,10 @@ $ curl http://localhost/status_count | jq
     "404": 781
   },
   "body_bytes_sent": 5200307169,
-  "request_time": 196100,
-  "avg_request_time": 28.014285714286
+  "request_time": 379091,
+  "avg_request_time": 61.084822695035,
+  "upstream_response_time": 351707,
+  "avg_upstream_response_time": 57.210212765957
 }
 ```
 
@@ -45,7 +47,7 @@ $ curl http://localhost/status_count | jq
 ## dependent mrbgem
 
 ```ruby
-  conf.gem :github => 'matsumoto-r/mruby-localmemcache'
-  conf.gem :github => 'matsumoto-r/mruby-mutex'
+  conf.gem :github => 'matsumotory/mruby-localmemcache'
+  conf.gem :github => 'matsumotory/mruby-mutex'
   conf.gem :github => 'mattn/mruby-json'
 ```

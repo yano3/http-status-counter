@@ -45,7 +45,7 @@ $ curl http://localhost/status_count | jq
 ## dependent mrbgem
 
 ```ruby
-  conf.gem :github => 'matsumoto-r/mruby-localmemcache'
-  conf.gem :github => 'matsumoto-r/mruby-mutex'
+  conf.gem :github => 'matsumotory/mruby-localmemcache'
+  conf.gem :github => 'matsumotory/mruby-mutex'
   conf.gem :github => 'mattn/mruby-json'
 ```

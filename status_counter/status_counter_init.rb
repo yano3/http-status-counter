@@ -64,6 +64,7 @@ class StatusCounter
 
     if Time.now.to_i - stats[:period_updated] > 300
       stats[:avg_request_time] = nil
+      stats[:avg_upstream_response_time] = nil
     end
 
     out = {

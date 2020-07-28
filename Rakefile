@@ -1,12 +1,7 @@
 namespace :docker do
-  desc "Build container for demo and development"
-  task :build do
-    sh "docker build -t local/http-status-counter ."
-  end
-
   desc "Run container for demo and development"
-  task :run => [:build] do
+  task :run do
     local_path = File.dirname(__FILE__)
-    sh "docker run -d -v #{local_path}/status_counter:/usr/local/nginx/status_counter -p 30080:80 local/http-status-counter"
+    sh "docker run -d -v #{local_path}/docker/conf/nginx.conf:/usr/local/nginx/conf/nginx.conf -v #{local_path}/status_counter:/usr/local/nginx/status_counter -p 30080:80 matsumotory/docker-ngx_mruby"
   end
 end
